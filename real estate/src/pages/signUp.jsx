@@ -1,9 +1,13 @@
 import React from 'react'
+import LoginForm from '../components/loginform';
 
-export default function signUp() {
+
+export default function SignUp() {
   return (
     <div>
-      <h1>SignUp</h1>
+      <LoginForm/>
+
     </div>
   )
 }
+

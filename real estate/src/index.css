@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* add style to 
+@layer base{
+    html{
+       @apply bg-slate-600 text-white;
+        
+    }
+
+} 
+*/
