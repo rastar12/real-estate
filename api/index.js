@@ -28,10 +28,10 @@ app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter);
 app.use('/api/listing',listingRouter);
 
-app.use(express.static(path.json(__dirname,'/real estate/dist')));
+app.use(express.static(path.json(__dirname,'/client/dist')));
 
 app.get('*',(req,res)=>{
-    res.sendFile(path.json(__dirname,'real estate','dist','index.html'));
+    res.sendFile(path.json(__dirname,'client','dist','index.html'));
 })
 
 app.use((err, req, res,next)=>{
