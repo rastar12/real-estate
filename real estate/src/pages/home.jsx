@@ -86,7 +86,7 @@ export default function Home() {
                    rounded-xl hover:bg-green-900 transition ease-in-out duration-500
                    hover:scale-105 transition-transform duration-300 "
       >
-        Get started
+        Get Started
       </button>
     </Link>
   </div>
