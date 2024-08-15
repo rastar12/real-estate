@@ -39,7 +39,6 @@ app.get('*', (req, res) => {
 
     
 
-
 app.use((err, req, res,next)=>{
     const statusCode=err.statuscode || 500;
     const message =err.message || 'internal server error';
