@@ -18,6 +18,8 @@ export const UpdateProfile = () => {
   const dispatch=useDispatch();
  console.log(formData);
 
+
+
  
  const handleChange=(e)=>{
  setFormData({...formData, [e.target.id] : e.target.value});
@@ -37,6 +39,7 @@ export const UpdateProfile = () => {
       return;
     }
     dispatch(deleteUserSuccess(data));
+    navigate('/Login');
   } catch (error) {
     dispatch(deleteUserFailure(error.message));
   }
@@ -53,6 +56,7 @@ export const UpdateProfile = () => {
       return;
     }
     dispatch(signOutSuccess(data));
+    navigate('/Login');
     
   } catch (error) {
     dispatch(signOutFailure(data.message))
