@@ -8,7 +8,6 @@ export default function MyListings() {
   const [userListings, setUserListings] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
   
-  
   const handleShowListings = async () => {
     try {
       const res = await fetch(`/api/user/listings/${currentUser._id}`);
@@ -17,7 +16,7 @@ export default function MyListings() {
       if (data.Success === false) {
         setShowListingError(true);
       } else {
-        setUserListings(data); // Assuming data is an array of listings
+        setUserListings(data); 
       }
     } catch (error) {
       setShowListingError(true);
@@ -63,7 +62,7 @@ export default function MyListings() {
                   <div className="mt-4 flex justify-between items-center">
                     <button
                       className="bg-slate-100 text-red-600 font-semibold py-2 px-4 rounded hover:bg-red-400 hover:text-white transition duration-300"
-                      onClick={() => handleListingDelete(listing._id)}
+                      onClick={() => handlelistingDelete(listing._id)}
                     >
                       Delete listing
                     </button>

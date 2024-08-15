@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { signInStart,signInFailure,sigInSuccess } from '../redux/user/userSlice';
 import Loading from '../components/loading'
 
-export default function SignUp() {
+export default function Login() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);

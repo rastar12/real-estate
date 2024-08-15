@@ -34,7 +34,7 @@ export const createListing = async (req, res, next) => {
       return next (errorHandler(401,'Listing not found'));
     }
     if(req.user.id!==listing.userRef){
-      return next (errorrHandler(401,'you can only update your own listing'));
+      return next (errorHandler(401,'you can only update your own listing'));
 
     }
     try {
@@ -58,7 +58,7 @@ export const createListing = async (req, res, next) => {
       }
       res.status(200).json(listing);
     } catch (error) {
-      
+      next(error);
     }
 
   }

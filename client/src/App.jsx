@@ -11,6 +11,7 @@ import Listings from "./pages/listings.jsx"
 import UpdateListing from './components/updateListing.jsx'
 import Search from "./pages/search.jsx"
 import Home from "./pages/home.jsx"
+import { UpdateProfile } from "./pages/UpdateProfile.jsx"
 function App() {
 
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/about" element={<About/>}/>
       <Route element={<PrivateRoute/>}>
       <Route path="/profile" element={<Profile/>}/>
+      <Route path='/update-profile' element={<UpdateProfile/>}/>
      
       </Route>
       <Route path="/signup" element={<SignUp/>}/>

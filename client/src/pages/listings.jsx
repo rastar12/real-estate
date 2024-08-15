@@ -67,15 +67,15 @@ export default function Listings() {
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                <div
-              className='relative h-[550px] w-full'
-               >
+                className='relative h-[550px] w-full'
+                >
                  <img
                  src={url}
                  alt='Background'
                   className='absolute inset-0 w-full h-full object-cover'
-             />
-  <div className='absolute inset-0 bg-black opacity-30'></div>
-</div>
+                 />
+                <div className='absolute inset-0 bg-black opacity-30'></div>
+                   </div>
 
               </SwiperSlide>
             ))}
@@ -99,7 +99,7 @@ export default function Listings() {
           )}
           <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
             <p className='text-2xl font-semibold'>
-              {listing.name} - ${' '}
+              {listing.name} - kes {' '}
               {listing.offer
                 ? listing.discountPrice.toLocaleString('en-US')
                 : listing.regularPrice.toLocaleString('en-US')}
@@ -115,7 +115,7 @@ export default function Listings() {
               </p>
               {listing.offer && (
                 <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+                  kes {+listing.regularPrice - +listing.discountPrice} OFF
                 </p>
               )}
             </div>

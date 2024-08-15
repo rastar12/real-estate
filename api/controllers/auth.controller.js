@@ -2,15 +2,32 @@ import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js'
 import { errorHandler } from '../utils/error.js';
 import jwt from  'jsonwebtoken'
+//import { generateVerificationCookie } from '../utils/generateVerificationCookie.js';
 
 
 export const Signup=async(req,res,next)=>{
     const {username,email,password }=req.body;
-    const hashedPassword= bcryptjs.hashSync(password,10);
-    const newUser=new User({username,email,password: hashedPassword});
+
     try{
+        const hashedPassword= bcryptjs.hashSync(password,10);
+       // const verificationToken=Math.floor(100000+Math.random()*900000).toString();
+        const newUser=new User({
+            username,
+            email,
+            password: hashedPassword,
+          //  verificationToken,
+          //  verificationTokenExpiresAt: Date.now()+24*60*60*1000 // 24hrs
+        });
+     //   generateVerificationCookie(res,User._id);
+
         await newUser.save();
-        res.status(201).json("User created succesfully");
+        res.status(201).json({
+        message :"User created succesfully",
+        User:{
+            ...User._doc,
+            password:undefined
+        }
+        }); 
 
     } catch (error){
         next(error);
@@ -26,7 +43,7 @@ export const Signup=async(req,res,next)=>{
         if(!validUser) return next(errorHandler (404,'User not found') );
         const validPassword =bcryptjs.compareSync(password,validUser.password);
         if(!validPassword) return next(errorHandler (404,'Wrong credentials') );
-        const token = jwt.sign({ id: validUser._id }, 'your_secret_here'); // Use validUser._id instead of _id
+        const token = jwt.sign({ id: validUser._id }, "Your_Secret_Here"); // acces_token
         const {password: pass,... rest}=validUser._doc;
 
         res

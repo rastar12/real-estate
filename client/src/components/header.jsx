@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {FaSearch} from 'react-icons/fa';
 import { Link ,useNavigate} from 'react-router-dom';
 import {  useSelector } from 'react-redux';
+import Logo from "../assets/logo.png"
 
 export default function Header() {
   const navigate =useNavigate();
@@ -31,7 +32,7 @@ export default function Header() {
       <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
         <div className='flex items-center'>
           <Link to='/about'>
-            <img src={'./src/assets/logo.png'} alt='Company Logo' className='h-10 w-10 mr-3' />
+            <img src={Logo} alt='Company Logo' className='h-10 w-10 mr-3' />
           </Link>
           <Link to='/'>
             <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>

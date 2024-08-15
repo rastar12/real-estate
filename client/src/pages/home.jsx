@@ -5,6 +5,13 @@ import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import ListingItem from '../components/listingCard';
+import image1 from "../assets/gallery-1.png";
+import image2 from "../assets/gallery-2.png";
+import image3 from "../assets/gallery-3.png";
+import image4 from "../assets/gallery-4.png";
+import image5 from "../assets/gallery-5.png";
+import image6 from "../assets/gallery-6.png";
+import image7 from "../assets/gallery-7.png";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -94,41 +101,41 @@ export default function Home() {
   <div className="flex space-x-2 md:space-x-4 lg:space-x-6">
     <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-6">
       <img
-        src={"./src/assets/gallery-1.png"}
+        src={image1}
         alt="image"
         className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
       />
       <img
-        src={"./src/assets/gallery-4.png"}
-        alt="image"
-        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
-      />
-    </div>
-    <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-6">
-      <img
-        src={"./src/assets/gallery-2.png"}
-        alt="image"
-        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
-      />
-      <img
-        src={"./src/assets/gallery-5.png"}
-        alt="image"
-        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
-      />
-      <img
-        src={"./src/assets/gallery-6.png"}
+        src={image4}
         alt="image"
         className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
       />
     </div>
     <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-6">
       <img
-        src={"./src/assets/gallery-3.png"}
+        src={image2}
         alt="image"
         className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
       />
       <img
-        src={"./src/assets/gallery-7.png"}
+        src={image5}
+        alt="image"
+        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
+      />
+      <img
+        src={image6}
+        alt="image"
+        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
+      />
+    </div>
+    <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-6">
+      <img
+        src={image3}
+        alt="image"
+        className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
+      />
+      <img
+        src={image7}
         alt="image"
         className="transform transition-transform duration-500 hover:scale-105 focus:scale-105"
       />
