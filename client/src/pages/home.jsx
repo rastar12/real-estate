@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -19,11 +19,23 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
   const [AllListings, setAllListings] = useState([]);
   const [page,setPage]=useState("All");
+  const [text, setText] = useState('');
+  const ref = useRef(0);
 
   const handleSetPage=(page)=>{
     setPage(page)
   }
   SwiperCore.use([Navigation]);
+  const name='place with ease'
+  useEffect(() => {
+		const interval = setInterval(() => {
+			if (ref.current < name.length) {
+				ref.current++;
+				setText(() => text + name[ref.current - 1]);
+			}
+		}, 300);
+		return () => clearInterval(interval);
+	}, [text]);
   
   useEffect(() => {
     const fetchOfferListings = async () => {
@@ -80,7 +92,7 @@ export default function Home() {
     <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
       Find your next <span className="text-slate-500">perfect</span>
       <br />
-      place with ease
+      {text}
     </h1>
     <p className="text-gray-400 text-xs sm:text-sm lg:text-base">
       House Kenya is the best place to find your next perfect place to live.
