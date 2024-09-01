@@ -65,7 +65,7 @@ export default function Contact({ listing }) {
                         className='w-full border p-3 rounded-lg'
                     />
                     <a
-                        href={`https://wa.me/${landLord.phoneNumber}?text=${encodeURIComponent(message)}`}
+                        href={`https://wa.me/${landLord.PhoneNumber}?text=${encodeURIComponent(message)}`}
                         target='_blank'
                         rel='noopener noreferrer'
                     >
@@ -79,7 +79,7 @@ export default function Contact({ listing }) {
                         <span className='font-semibold'> {landLord.username}</span> 
                         for <span className='font-semibold'>{listing.name.toLowerCase()}</span>
                     </p>
-                    <a href={`tel:${landLord.phoneNumber}`}>
+                    <a href={`tel:${landLord.PhoneNumber}`}>
                         <button className='bg-blue-500 text-white text-center p-3 hover:opacity-95 flex items-center justify-center gap-2'>
                             <FaPhoneAlt /> CALL NOW
                         </button>
