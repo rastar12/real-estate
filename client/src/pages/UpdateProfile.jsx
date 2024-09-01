@@ -177,6 +177,17 @@ export const UpdateProfile = () => {
               />
             </div>
             <div>
+              <label htmlFor="email" className="block text-gray-700">Phone Number</label>
+              <input
+                type="PhoneNumber"
+                placeholder="254 format"
+                id="PhoneNumber"
+                defaultValue={currentUser.PhoneNumber}
+                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
               <label htmlFor="password" className="block text-gray-700">Password</label>
               <input
                 type="password"
