@@ -11,7 +11,6 @@ export default function Contact({ listing }) {
         setMessage(e.target.value);
     };
   
-
     useEffect(() => {
         const fetchLandLord = async () => {
             try {

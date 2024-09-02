@@ -10,15 +10,14 @@ export const Signup=async(req,res,next)=>{
 
     try{
         const hashedPassword= bcryptjs.hashSync(password,10);
-       // const verificationToken=Math.floor(100000+Math.random()*900000).toString();
+
         const newUser=new User({
             username,
             email,
             password: hashedPassword,
-          //  verificationToken,
-          //  verificationTokenExpiresAt: Date.now()+24*60*60*1000 // 24hrs
+
         });
-     //   generateVerificationCookie(res,User._id);
+ 
 
         await newUser.save();
         res.status(201).json({

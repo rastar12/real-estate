@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 // Nairobi coordinates 
 const center = { lat: -1.286389, lng: 36.817223 }; 
@@ -25,31 +25,12 @@ const ContactPage = () => {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Contact Form */}
           <div className="bg-white p-6 rounded-lg shadow-md w-full md:w-2/3">
-            <h2 className="text-2xl font-bold mb-4 text-slate-800">Contact Us</h2>
+            <h2 className="text-2xl font-bold mb-4 text-slate-800">Want to advertise with us ? <br/>Contact Us</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-slate-600">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm"
-                  required
-                />
+
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-slate-600">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm"
-                  required
-                />
               </div>
               <div className="mb-4">
                 <label htmlFor="message" className="block text-sm font-medium text-slate-600">Message</label>
@@ -63,12 +44,15 @@ const ContactPage = () => {
                   required
                 ></textarea>
               </div>
-              <button
-                type="submit"
-                className="w-full bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500"
-              >
-                Send Message
-              </button>
+              <a
+                 href={`https://wa.me/254798148395?text=${encodeURIComponent(formData.message)}`}
+                     target='_blank'
+                      rel='noopener noreferrer'
+                >
+              <button className='bg-green-500 text-white text-center p-3 hover:opacity-95 flex items-center justify-center gap-2'>
+                <FaWhatsapp /> SEND VIA WHATSAPP
+                 </button>
+            </a>
             </form>
           </div>
 
