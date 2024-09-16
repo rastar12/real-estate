@@ -91,6 +91,9 @@ export default function Header() {
             <li className='text-slate-700 hover:underline'>
               <Link to='/contact' onClick={handleMenuItemClick}>Contact</Link>
             </li>
+            <li className='text-slate-700 hover:underline'>
+              <Link to='/Shopping' onClick={handleMenuItemClick}>Shop</Link>
+            </li>
             <li>
               <Link to='/profile'>
                 {currentUser ? (

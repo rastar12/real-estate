@@ -11,7 +11,7 @@ export default function Contact({ listing }) {
         setMessage(e.target.value);
     };
   
-    useEffect(() => {
+    useEffect(() => { 
         const fetchLandLord = async () => {
             try {
                 const res = await fetch(`/api/user/${listing.userRef}`);

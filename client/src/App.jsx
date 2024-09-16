@@ -12,6 +12,11 @@ import Search from "./pages/search.jsx"
 import Home from "./pages/home.jsx"
 import { UpdateProfile } from "./pages/UpdateProfile.jsx"
 import ContactPage from "./pages/ContactPage.jsx"
+import AddProductPage from "./pages/advertismentForm"
+import UpdateProductPage from "./components/updateAdvert.jsx"
+import AdvertCard from "./pages/advertCard.jsx"
+import ShopLandingPage from "./pages/Shop.jsx"
+import HeaderDown from "./components/HeaderDown.jsx"
 function App() {
 
   return (
@@ -28,7 +33,10 @@ function App() {
       <Route path='/update-listing/:listingId' element={<UpdateListing/>}/>
       <Route path='search' element={<Search/>}/>
       <Route path='/contact' element={<ContactPage/>}/>
+      <Route path='/advert/:id' element={<AdvertCard/>}/>
+      <Route path='/Shop-houseKenya' element={<ShopLandingPage/>}/>
     </Routes>
+    <HeaderDown/>
     <Footer/>
     </BrowserRouter>
   )
