@@ -52,15 +52,7 @@ export const updateAdvert=async (req,res,next)=>{
   }
 };
 
-export const getAdverts=async(req,res,next)=>{
- 
-  try {
-    const adverts= Advertisment.find();
-    res.status(200).json(adverts);
-  } catch (error) {
-    
-  }
-}
+
 
 export const getUserAdverts=async(req,res,next)=>{
 
@@ -85,3 +77,25 @@ export const getAdvert= async (req,res,next)=>{
   }
 
 }
+export const getSpecific = async (req, res, next) => {
+  try {
+    const searchTerm = req.query.searchTerm || '';
+
+    const adverts = await Advertisment.find({
+      Category: { $regex: searchTerm, $options: 'i' },
+      });
+    return res.status(200).json(adverts);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAdverts = async (req, res, next) => {
+  try {
+    const adverts = await Advertisment.find();
+    return res.status(200).json(adverts);
+  } catch (error) {
+    console.error('Error fetching all adverts:', error);
+    next(error);
+  }
+};

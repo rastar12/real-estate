@@ -17,6 +17,8 @@ import UpdateProductPage from "./components/updateAdvert.jsx"
 import AdvertCard from "./pages/advertCard.jsx"
 import ShopLandingPage from "./pages/Shop.jsx"
 import HeaderDown from "./components/HeaderDown.jsx"
+import Add from "./pages/Add.jsx"
+import ListingForm from "./pages/listingform.jsx"
 function App() {
 
   return (
@@ -35,6 +37,10 @@ function App() {
       <Route path='/contact' element={<ContactPage/>}/>
       <Route path='/advert/:id' element={<AdvertCard/>}/>
       <Route path='/Shop-houseKenya' element={<ShopLandingPage/>}/>
+      <Route path='/Add' element={<Add/>}/>
+      <Route path='/AddListing' element={<ListingForm/>}/>
+      <Route path='/AddAdvert' element={<AddProductPage/>}/>
+
     </Routes>
     <HeaderDown/>
     <Footer/>

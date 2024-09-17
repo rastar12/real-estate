@@ -5,7 +5,7 @@ import Loading from '../components/loading';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
-  const [selectedType, setSelectedType] = useState(''); // State for account type
+  const [selectedType, setSelectedType] = useState(''); 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

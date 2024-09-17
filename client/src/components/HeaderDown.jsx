@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaStore, FaHome as FaHouse, FaUser } from 'react-icons/fa';
+import { FaHome, FaUser,FaShoppingCart, FaStoreAlt ,FaPlus} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function HeaderDown() {
@@ -13,19 +13,22 @@ function HeaderDown() {
             <FaHome className='text-slate-800 size-5' />
           </li>
           </Link>
-
           <Link to={'/Shop-houseKenya'}>
           <li className="text-center cursor-pointer">
-            <FaStore className='text-slate-800 size-5' />
+            <FaShoppingCart className='text-slate-800 size-5' />
           </li>
           </Link>
- 
         <Link to={'search'}>
         <li className="text-center cursor-pointer">
-            <FaHouse className='text-slate-800 size-5' />
+            <FaStoreAlt className='text-slate-800 size-5' />
           </li>
         </Link>
-
+        <Link to={'/Add'}>
+        <li className="text-center cursor-pointer">
+            <FaPlus className='text-slate-800 size-5' />
+          </li>
+        </Link>
+        
         <Link to={'/profile'}>
         <li className="text-center cursor-pointer">
             <FaUser className='text-slate-800 size-5' />

@@ -25,8 +25,11 @@ const advertismentSchema=new mongoose.Schema({
     type: String,
     required: true,
   },
-  location:{
+  Location:{
     type: String,
+  },
+  Category:{
+    type:String,
   },
   
 },{timestamps: true})

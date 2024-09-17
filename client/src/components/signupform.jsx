@@ -26,6 +26,7 @@ export default function Google() {
           name:result.user.displayName,
           email:result.user.email,
           photo:result.user.photoURL}),
+          accountType:'buying',
       })
       const data= await res.json();
       dispatch(sigInSuccess(data));

@@ -9,6 +9,7 @@ const { currentUser } = useSelector(state => state.user);
 const [error, setError] = useState(false);
 const [loading, setLoading] = useState(false);
 const navigate=useNavigate();
+const [selectedType, setSelectedType] = useState('');
 const [formData, setFormData] = useState({
     Title: '',
     Description: '',
@@ -16,14 +17,22 @@ const [formData, setFormData] = useState({
     Available: '',
     Location: '',
     imageUrls: ["ecnineicecc"],
+    
   });
 
   console.log(formData)
+  console.log(selectedType)
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
+
+  const handleRadioChange = (e) => {
+    setSelectedType(e.target.value);
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +45,7 @@ const [formData, setFormData] = useState({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, userRef: currentUser._id }),
+        body: JSON.stringify({ ...formData, userRef: currentUser._id , Category: selectedType}),
       });
       const data = await res.json();
       setLoading(false);
@@ -65,7 +74,7 @@ const [formData, setFormData] = useState({
         {/* Title */}
         <div>
           <label htmlFor="title" className="block text-slate-600 text-sm font-medium">
-            Title
+            Name
           </label>
           <input
             type="text"
@@ -142,6 +151,38 @@ const [formData, setFormData] = useState({
             placeholder="Enter shop location"
             required
           />
+        </div>
+        <div>
+          <h2 className='text-slate-700 font-bold mb-3'>Category</h2>
+        <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="furniture"
+                  name="Category"
+                  value="furniture"
+                  checked={selectedType === 'furniture'}
+                  onChange={handleRadioChange}
+                  className="h-4 w-4 text-slate-700 focus:ring-slate-500 border-slate-300 rounded"
+                />
+                <label htmlFor="selling" className="ml-2 text-slate-600 text-sm font-medium">
+                  Furniture
+                </label>
+              </div>
+              {/* Radio Button for Advertising */}
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="utensils"
+                  name="Category"
+                  value="utensils"
+                  checked={selectedType === 'utensils'}
+                  onChange={handleRadioChange}
+                  className="h-4 w-4 text-slate-700 focus:ring-slate-500 border-slate-300 rounded"
+                />
+                <label htmlFor="advertising" className="ml-2 text-slate-600 text-sm font-medium">
+                  kitchen Items
+                </label>
+              </div>
         </div>
 
         {/* Image Upload */}
