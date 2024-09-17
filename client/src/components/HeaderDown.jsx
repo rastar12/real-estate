@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaUser,FaShoppingCart, FaStoreAlt ,FaPlus} from 'react-icons/fa';
+import { FaHome, FaUser,FaShoppingCart, FaStoreAlt ,FaPlus,FaSearch} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function HeaderDown() {
@@ -20,7 +20,7 @@ function HeaderDown() {
           </Link>
         <Link to={'search'}>
         <li className="text-center cursor-pointer">
-            <FaStoreAlt className='text-slate-800 size-5' />
+            <FaSearch className='text-slate-800 size-5' />
           </li>
         </Link>
         <Link to={'/Add'}>
