@@ -43,7 +43,7 @@ export const Signup=async(req,res,next)=>{
         if(!validUser) return next(errorHandler (404,'User not found') );
         const validPassword =bcryptjs.compareSync(password,validUser.password);
         if(!validPassword) return next(errorHandler (404,'Wrong credentials') );
-        const token = jwt.sign({ id: validUser._id }, "Your_Secret_Here"); // acces_token
+        const token = jwt.sign({ id: validUser._id }, "your_secret_here"); // acces_token
         const {password: pass,... rest}=validUser._doc;
 
         res

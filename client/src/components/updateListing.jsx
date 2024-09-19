@@ -27,7 +27,7 @@ const UpdateListing = () => {
   const [loading, setLoading] = useState(false);
   const navigate=useNavigate();
   const params=useParams();
-
+  
   useEffect(()=>{
     const fetchListing=async()=>{
       const listingId=params.listingId;

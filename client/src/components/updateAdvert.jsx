@@ -1,38 +1,144 @@
-import React, { useState } from 'react';
+import { getDownloadURL, getStorage, uploadBytesResumable, ref } from 'firebase/storage';
+import React, { useEffect, useState } from 'react';
+import { app } from '../firebase';
+import { useSelector } from 'react-redux';
+import { useNavigate ,useParams } from 'react-router-dom';
 
 const UpdateProductPage = () => {
-  // Example product to update (this would usually come from an API or state)
-  const existingProduct = {
-    title: 'Sample Product',
-    description: 'This is an example product description.',
-    price: 100,
-    availability: 50,
-    location: 'Downtown Store',
-  };
 
-  const [title, setTitle] = useState(existingProduct.title);
-  const [description, setDescription] = useState(existingProduct.description);
-  const [price, setPrice] = useState(existingProduct.price);
-  const [availability, setAvailability] = useState(existingProduct.availability);
-  const [location, setLocation] = useState(existingProduct.location);
-  const [image, setImage] = useState(null); // Image state
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      title,
-      description,
-      price,
-      availability,
-      location,
-      image,
+  const { currentUser } = useSelector(state => state.user);
+  const [files, setFiles] = useState([]);
+  const [formData, setFormData] = useState({
+    Title: '',
+    Description: '',
+    Price: '',
+    Available: '',
+    Location: '',
+    imageUrls: [],
+  });
+  const [imageUploadError, setImageUploadError] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate=useNavigate();
+  const params=useParams();
+  
+  useEffect(() => {
+    const fetchAdvert = async () => {
+      const advertId = params.advertId;
+      const res = await fetch(`/api/Adverts/get/${advertId}`);
+      const data = await res.json();
+  
+      if (data.Success === false) {
+        console.log(data.message);
+      } else {
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          Title: data.Title || '',
+          Description: data.Description || '',
+          Price: data.Price || '',
+          Available: data.Available || '',
+          Location: data.Location || '',
+          imageUrls: data.imageUrls || [],
+        }));
+      }
     };
-    console.log('Product updated:', formData);
-    // Add logic to send formData to your backend or state management
+  
+    fetchAdvert();
+  }, [params.advertId]);
+  
+
+  const handleImageSubmit = async (e) => {
+    e.preventDefault();
+    if (files.length > 0 && files.length <= 7) {
+      setUploading(true);
+      setImageUploadError(false);
+      const promises = [];
+      for (let i = 0; i < files.length; i++) {
+        promises.push(storeImage(files[i]));
+      }
+      try {
+        const urls = await Promise.all(promises);
+        setFormData({
+          ...formData,
+          imageUrls: formData.imageUrls.concat(urls),
+        });
+        setImageUploadError(false);
+      } catch (err) {
+        setImageUploadError('Image upload failed (2MB per image).');
+      } finally {
+        setUploading(false);
+      }
+    } else {
+      setImageUploadError('You can only add up to 7 images per listing.');
+    }
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+
+  const storeImage = async (file) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+    });
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+  
+      if (formData.imageUrls.length<1)return setError("You must uplaod one image")
+      setLoading(true);
+      setError(false);
+      const res = await fetch(`/api/Adverts/update/${params.advertId}`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...formData, userRef: currentUser._id }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.Success === false) {
+        setError(data.message);
+      }
+      alert("Advert updated successfully")
+      navigate(`/advert/${data._id}`);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,9 +152,9 @@ const UpdateProductPage = () => {
           </label>
           <input
             type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            id="Title"
+            value={formData.Title}
+            onChange={handleChange}
             className="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter product title"
             required
@@ -61,9 +167,9 @@ const UpdateProductPage = () => {
             Description
           </label>
           <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            id="Description"
+            value={formData.Description}
+            onChange={handleChange}
             className="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter product description"
             rows="4"
@@ -75,13 +181,13 @@ const UpdateProductPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="price" className="block text-slate-600 text-sm font-medium">
-              Price ($)
+              Price (kes)
             </label>
             <input
               type="number"
-              id="price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              id="Price"
+              value={formData.Price}
+              onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
               placeholder="Enter price"
               required
@@ -95,9 +201,9 @@ const UpdateProductPage = () => {
             </label>
             <input
               type="number"
-              id="availability"
-              value={availability}
-              onChange={(e) => setAvailability(e.target.value)}
+              id="Available"
+              value={formData.Available}
+              onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
               placeholder="How many available?"
               required
@@ -112,9 +218,9 @@ const UpdateProductPage = () => {
           </label>
           <input
             type="text"
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            id="Location"
+            value={formData.Location}
+            onChange={handleChange}
             className="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter shop location"
             required
@@ -123,13 +229,15 @@ const UpdateProductPage = () => {
 
         {/* Image Upload */}
         <div>
-          <label htmlFor="image" className="block text-slate-600 text-sm font-medium">
+          <label htmlFor="image" className=" text-slate-600 text-sm font-medium flex gap-4">
             Product Image
           </label>
           <input
-            type="file"
-            id="image"
-            onChange={handleImageChange}
+                onChange={(e) => setFiles(Array.from(e.target.files))}
+                type='file'
+                id='images'
+                accept='image/*'
+                multiple
             className="mt-1 block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-md file:border-0
@@ -137,15 +245,29 @@ const UpdateProductPage = () => {
               file:bg-slate-700 file:text-white
               hover:file:bg-slate-600"
           />
+                        <button
+                type='button'
+                disabled={uploading}
+                onClick={handleImageSubmit}
+                className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
+              >
+                {uploading ? 'Uploading...' : 'Upload'}
+              </button>
         </div>
+        <p className='text-red-700 rounded-md'>{imageUploadError}</p>
+            {formData.imageUrls.map((url, index) => (
+              <div key={url} className='flex justify-between p-3 border items-center'>
+                <img src={url} alt={`Image ${index}`} className='w-20 h-20 object-contain rounded-lg' />
+                <button type='button' className='text-red-700 uppercase hover:opacity-95' onClick={() => handleRemoveImage(index)}>Delete</button>
+              </div>
+            ))}
 
-        {/* Submit Button */}
         <div>
           <button
             type="submit"
             className="w-full bg-slate-700 text-white py-2 px-4 rounded-md shadow-lg hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
           >
-            Update Product
+               {loading ? 'updating..' : 'update Product'}
           </button>
         </div>
       </form>

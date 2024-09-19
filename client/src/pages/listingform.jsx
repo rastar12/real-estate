@@ -26,6 +26,8 @@ const ListingForm = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate=useNavigate();
+  
+  console.log(formData.imageUrls)
   const handleImageSubmit = async (e) => {
     e.preventDefault();
     if (files.length > 0 && files.length <= 7) {
@@ -293,7 +295,7 @@ const ListingForm = () => {
                 onClick={handleImageSubmit}
                 className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
               >
-                {uploading ? 'Uploading...' : 'Upload'}
+                {uploading ? 'Uploading....' : 'Upload'}
               </button>
             </div>
             <p className='text-red-700 rounded-md'>{imageUploadError}</p>

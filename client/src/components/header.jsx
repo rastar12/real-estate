@@ -80,11 +80,21 @@ export default function Header() {
             <li className='text-slate-700 hover:underline'>
               <Link to='/Add' onClick={handleMenuItemClick}>Add</Link>
             </li>
-            <li>
-              <Link to='/profile'>
-              Profile
+            {currentUser ? (
+                          <li className='text-slate-700 hover:underline'>
+                          <Link to='/profile'>
+                          Profile
+                          </Link>
+                        </li>
+
+            ):(
+              <li className='text-slate-700 hover:underline'>
+              <Link to='/Login'>
+              SignIn
               </Link>
             </li>
+            )}
+
           </ul>
         </nav>
       </div>

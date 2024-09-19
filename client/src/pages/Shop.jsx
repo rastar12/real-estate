@@ -1,25 +1,18 @@
 import { useEffect, useState } from 'react';
 import { FaTable, FaChair, FaUtensils } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
-const categories = [
-  { name: 'Tables', icon: <FaTable size={18} /> },
-  { name: 'Chairs', icon: <FaChair size={18} /> },
-  { name: 'Cooking Materials', icon: <FaUtensils size={18} /> }
-];
+import { motion } from 'framer-motion';
 
 const ShopLandingPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [furnitures, setFurnitures] = useState([]);
   const [cookingMaterials, setCookingMaterials] = useState([]);
   const [page, setPage] = useState('All');
 
   const handleSetPage = (page) => {
     setPage(page);
-  }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,7 +34,7 @@ const ShopLandingPage = () => {
     const fetchFurniture = async () => {
       setLoading(true);
       try {
-        const res = await fetch('/api/Adverts/gett?searchTerm=furniture');  // Match route with backend
+        const res = await fetch('/api/Adverts/gett?searchTerm=furniture');
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
@@ -54,11 +47,10 @@ const ShopLandingPage = () => {
       }
     };
 
-    
     const fetchCookingMaterials = async () => {
       setLoading(true);
       try {
-        const res = await fetch('/api/Adverts/gett?searchTerm=utensils');  // Match route with backend
+        const res = await fetch('/api/Adverts/gett?searchTerm=utensils');
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
@@ -70,13 +62,11 @@ const ShopLandingPage = () => {
         setLoading(false);
       }
     };
-    
 
     fetchProducts();
     fetchCookingMaterials();
     fetchFurniture();
-  }, [searchTerm]);
-
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-slate-100 rounded-lg shadow-lg">
@@ -108,14 +98,23 @@ const ShopLandingPage = () => {
       {/* Spacer for Fixed Icons */}
       <div className="pt-20"></div>
 
+      {/* Loading Indicator */}
+      {loading && <div className="text-center py-4">Loading...</div>}
+
       {/* Products by Selected Category */}
       <section>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {page === 'All' && products.length > 0 && (
             products.map((product) => (
-              <div key={product._id} className="p-4 bg-slate-100 rounded-lg shadow-md">
+              <motion.div
+                key={product._id}
+                className="p-4 bg-slate-100 rounded-lg shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <img
-                  src={product.imageUrl}
+                  src={product.imageUrls[0]}
                   alt={product.Title}
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
@@ -126,15 +125,21 @@ const ShopLandingPage = () => {
                     View Details
                   </button>
                 </Link>
-              </div>
+              </motion.div>
             ))
           )}
 
           {page === 'Utensils' && cookingMaterials.length > 0 && (
             cookingMaterials.map((cookingMaterial) => (
-              <div key={cookingMaterial._id} className="p-4 bg-slate-100 rounded-lg shadow-md">
+              <motion.div
+                key={cookingMaterial._id}
+                className="p-4 bg-slate-100 rounded-lg shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <img
-                  src={cookingMaterial.imageUrl}
+                  src={cookingMaterial.imageUrls[0]}
                   alt={cookingMaterial.Title}
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
@@ -145,15 +150,21 @@ const ShopLandingPage = () => {
                     View Details
                   </button>
                 </Link>
-              </div>
+              </motion.div>
             ))
           )}
 
           {page === 'Furniture' && furnitures.length > 0 && (
             furnitures.map((furniture) => (
-              <div key={furniture._id} className="p-4 bg-slate-100 rounded-lg shadow-md">
+              <motion.div
+                key={furniture._id}
+                className="p-4 bg-slate-100 rounded-lg shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <img
-                  src={furniture.imageUrl}
+                  src={furniture.imageUrls[0]}
                   alt={furniture.Title}
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
@@ -164,10 +175,14 @@ const ShopLandingPage = () => {
                     View Details
                   </button>
                 </Link>
-              </div>
+              </motion.div>
             ))
           )}
         </div>
+
+        {products.length === 0 && !loading && (
+          <div className="text-center py-4">No products found.</div>
+        )}
       </section>
     </div>
   );

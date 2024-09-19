@@ -5,6 +5,9 @@ import { FaEnvelope, FaUserEdit } from 'react-icons/fa';
 import { IoIosAddCircle, IoIosListBox } from 'react-icons/io';
 import ListingForm from './listingform';
 import MyListings from '../components/MyLIstings';
+import AddProductPage from './advertismentForm';
+import UpdateProductPage from '../components/updateAdvert';
+import MyAdverts from '../components/MyAdverts';
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -54,22 +57,26 @@ const Profile = () => {
                   <span>{currentUser.email}</span>
                 </li>
               </ul>
+              {currentUser.accountType!="buying" &&
               <div className="flex justify-between mt-4">
-                <button
-                  onClick={() => setCurrentPage('AddListing')}
-                  className="text-blue-700 flex items-center space-x-2 hover:underline"
-                >
-                  <IoIosAddCircle className="h-5 w-5" />
-                  <span>Add a Listing</span>
-                </button>
-                <button
-                  onClick={() => setCurrentPage('ViewListing')}
-                  className="text-blue-700 flex items-center space-x-2 hover:underline"
-                >
-                  <IoIosListBox className="h-5 w-5" />
-                  <span>View My Listings</span>
-                </button>
-              </div>
+              <button
+                onClick={() => setCurrentPage('AddListing')}
+                className="text-blue-700 flex items-center space-x-2 hover:underline"
+              >
+                <IoIosAddCircle className="h-5 w-5" />
+                <span>Add </span>
+              </button>
+              <button
+                onClick={() => setCurrentPage('ViewListing')}
+                className="text-blue-700 flex items-center space-x-2 hover:underline"
+              >
+                <IoIosListBox className="h-5 w-5" />
+                <span>View</span>
+              </button>
+            </div>
+              
+              }
+              
             </div>
           </div>
         </div>
@@ -84,8 +91,12 @@ const Profile = () => {
       </div>
 
       <div className="mt-8">
-        {currentPage === 'AddListing' && <ListingForm/>}
-        {currentPage === 'ViewListing' && <MyListings/>}
+        {currentPage === 'AddListing' && currentUser.accountType==="selling" && <ListingForm/>}
+        {currentPage === 'ViewListing' && currentUser.accountType==="selling" && <MyListings/>}
+
+        {currentPage === 'AddListing' && currentUser.accountType==="advertising" && <AddProductPage/>}
+        {currentPage === 'ViewListing' && currentUser.accountType==="advertising" && <MyAdverts/>}
+        
       </div>
     </div>
   );

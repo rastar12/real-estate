@@ -40,6 +40,7 @@ function App() {
       <Route path='/Add' element={<Add/>}/>
       <Route path='/AddListing' element={<ListingForm/>}/>
       <Route path='/AddAdvert' element={<AddProductPage/>}/>
+      <Route path="/update-Advert/:advertId" element={<UpdateProductPage/>}/>
 
     </Routes>
     <HeaderDown/>

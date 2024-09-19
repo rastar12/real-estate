@@ -1,28 +1,93 @@
 import  { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { app } from '../firebase';
+import { getDownloadURL, getStorage, uploadBytesResumable, ref } from 'firebase/storage';
 
 
 
 const AddProductPage = () => {
-const { currentUser } = useSelector(state => state.user);
-const [error, setError] = useState(false);
-const [loading, setLoading] = useState(false);
-const navigate=useNavigate();
-const [selectedType, setSelectedType] = useState('');
-const [formData, setFormData] = useState({
+  const { currentUser } = useSelector(state => state.user);
+  const [uploading, setUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState('');
+  const [formData, setFormData] = useState({
     Title: '',
     Description: '',
     Price: '',
     Available: '',
     Location: '',
-    imageUrls: ["ecnineicecc"],
-    
+    imageUrls: [],
   });
 
-  console.log(formData)
-  console.log(selectedType)
-  const [image, setImage] = useState(null);
+  const [files, setFiles] = useState([]);
+  console.log(formData.imageUrls);
+
+  if(!currentUser){
+    navigate('/Login')
+  }
+
+  
+  const handleImageSubmit = async (e) => {
+    e.preventDefault();
+    if (files.length > 0 && files.length <= 7) {
+      setUploading(true);
+      setImageUploadError(false);
+      const promises = [];
+      for (let i = 0; i < files.length; i++) {
+        promises.push(storeImage(files[i]));
+      }
+      try {
+        const urls = await Promise.all(promises);
+        setFormData({
+          ...formData,
+          imageUrls: formData.imageUrls.concat(urls),
+        });
+        setImageUploadError(false);
+      } catch (err) {
+        setImageUploadError('Image upload failed (4MB per image).');
+      } finally {
+        setUploading(false);
+      }
+    } else {
+      setImageUploadError('You can only add up to 7 images per listing.');
+    }
+  };
+
+
+  const storeImage = async (file) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+    });
+  };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -52,7 +117,8 @@ const [formData, setFormData] = useState({
       if (data.Success === false) {
         setError(data.message);
       }
-   navigate(`/advert/${data._id}`)
+      console.log("Data",data);
+      navigate(`/advert/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -190,10 +256,15 @@ const [formData, setFormData] = useState({
           <label htmlFor="image" className="block text-slate-600 text-sm font-medium">
             Product Image
           </label>
+
+          <div className='flex gap-4'>
           <input
-            type="file"
-            id="imageUrls"
-            onChange={handleImageChange}
+             onChange={(e) => setFiles(Array.from(e.target.files))}
+
+            type='file'
+            id='images'
+            accept='image/*'
+            multiple
             className="mt-1 block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-md file:border-0
@@ -201,6 +272,23 @@ const [formData, setFormData] = useState({
               file:bg-slate-700 file:text-white
               hover:file:bg-slate-600"
           />
+              <button
+                type='button'
+                disabled={uploading}
+                onClick={handleImageSubmit}
+                className='p-3 text-slate-700 border border-slate-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
+              >
+                {uploading ? 'Uploading....' : 'Upload'}
+              </button>
+
+          </div>
+          {formData.imageUrls.map((url, index) => (
+              <div key={url} className='flex justify-between p-3 border items-center'>
+                <img src={url} alt={`Image ${index}`} className='w-20 h-20 object-contain rounded-lg' />
+                <button type='button' className='text-red-700 uppercase hover:opacity-95' onClick={() => handleRemoveImage(index)}>Delete</button>
+              </div>
+            ))}
+          
         </div>
 
         {/* Submit Button */}
