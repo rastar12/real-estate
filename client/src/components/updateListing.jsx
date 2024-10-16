@@ -238,7 +238,7 @@ const UpdateListing = () => {
 
               {/**remaining  */}
               <div className="flex-1 mt-4 md:mt-0">
-                <label htmlFor="bedrooms" className="block text-gray-700">Availabilty</label>
+                <label htmlFor="bedrooms" className="block text-gray-700">Availabilty:</label>
                 <input
                   type="number"
                   id="remaining"
