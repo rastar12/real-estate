@@ -9,7 +9,7 @@ import {
   FaBath,
   FaBed,
   FaChair,
-  FaMapMarkedAlt,
+  FaBitcoin,
   FaMapMarkerAlt,
   FaParking,
   FaShare,
@@ -108,6 +108,14 @@ export default function Listings() {
             <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
               <FaMapMarkerAlt className='text-green-700' />
               {listing.address}
+            </p>
+            <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
+              <FaBitcoin className='text-green-700' />
+              {
+                listing.remaining < 1 
+                ? (<p className='text-red-700 font-extrabold font-serif text-2xl'>Sold Out</p>):
+                <p className='text-slate-700 font-extrabold font-serif text-2xl'>{listing.remaining} Units remaining</p>
+              }
             </p>
             <div className='flex gap-4'>
               <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>

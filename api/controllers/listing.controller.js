@@ -99,6 +99,8 @@ export const createListing = async (req, res, next) => {
   
       const listings = await Listing.find({
         name: { $regex: searchTerm, $options: 'i' },
+        // To also search for the search term in the description
+        //description: { $regex: searchTerm, $options: 'i' },
         offer,
         furnished,
         parking,

@@ -20,6 +20,7 @@ const UpdateListing = () => {
     offer: false,
     parking: false,
     furnished: false,
+    remaining:'',
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -231,6 +232,20 @@ const UpdateListing = () => {
                   placeholder="Enter the number of bedrooms"
                   onChange={handleChange}
                   value={formData.bedrooms}
+                  required
+                />
+              </div>
+
+              {/**remaining  */}
+              <div className="flex-1 mt-4 md:mt-0">
+                <label htmlFor="bedrooms" className="block text-gray-700">Availabilty</label>
+                <input
+                  type="number"
+                  id="remaining"
+                  className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+                  placeholder=" Enter number of houses Available"
+                  onChange={handleChange}
+                  value={formData.remaining}
                   required
                 />
               </div>

@@ -54,6 +54,10 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    remaining:{
+      type:Number,
+      required:true,
+  },
   },
   { timestamps: true }
 );

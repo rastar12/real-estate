@@ -73,7 +73,7 @@ const ProductPage = () => {
           spaceBetween={10}
           pagination={{ clickable: true }}
           navigation
-          modules={[Navigation, Pagination]}  // Register the modules
+          modules={[Navigation, Pagination]}  
         >
         {product.imageUrls.map((url) => (
           <SwiperSlide key={url}>
@@ -133,7 +133,7 @@ const ProductPage = () => {
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
                 <h3 className="text-lg font-semibold text-slate-700">{similarProduct.Title}</h3>
-                <p className="text-md text-slate-600 mb-2">${similarProduct.Price}</p>
+                <p className="text-md text-slate-600 mb-2">kes {similarProduct.Price}</p>
                 <Link to={`/advert/${similarProduct._id}`}>
                   <span className="text-blue-500 hover:underline">View Product</span>
                 </Link>
@@ -147,5 +147,7 @@ const ProductPage = () => {
     </div>
   );
 };
+
+
 
 export default ProductPage;
