@@ -10,6 +10,7 @@ export default function Header() {
   const { currentUser } = useSelector(state => state.user);
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 640);
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -33,6 +34,16 @@ export default function Header() {
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
     }
+
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 640);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, [location.search]);
 
   return (
@@ -47,51 +58,53 @@ export default function Header() {
             />
           </Link>
           <Link to='/'>
-            <h1 className='hidden sm:flex font-bold text-lg sm:text-xl'>
+            <h1 className='font-bold text-lg sm:text-xl'>
               <span className='text-slate-500'>House</span>
               <span className='text-slate-700'>Kenya</span>
             </h1>
           </Link>
         </div>
 
-        <button
-          className='block sm:hidden p-2 text-slate-600'
-          onClick={handleMenuToggle}
-          aria-label='Toggle menu'
-        >
-          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-        </button>
+        {!isSmallScreen && (
+          <button
+            className='block sm:hidden p-2 text-slate-600'
+            onClick={handleMenuToggle}
+            aria-label='Toggle menu'
+          >
+            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        )}
 
         <nav
-          className={`fixed top-0 right-0 bg-white shadow-md sm:static sm:bg-transparent sm:shadow-none transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} sm:translate-x-0 w-64 h-full sm:h-auto`}>
+          className={`sm:flex ${isMenuOpen ? '' : 'hidden'} sm:static sm:bg-transparent sm:shadow-none transition-transform transform sm:translate-x-0 w-full sm:w-auto`}>
           <ul className='flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-0'>
-            <li className='text-slate-700 hover:underline'>
+            <li className='text-slate-700 hover:underline font-bold'>
               <Link to='/' onClick={handleMenuItemClick}>Home</Link>
             </li>
-            <li className='text-slate-700 hover:underline'>
-              <Link to='/about' onClick={handleMenuItemClick}>About</Link>
+
+            <li className='text-slate-700 hover:underline font-bold'>
+              <Link to='search' onClick={handleMenuItemClick}>Search</Link>
             </li>
-            <li className='text-slate-700 hover:underline'>
-              <Link to='/contact' onClick={handleMenuItemClick}>Contact</Link>
-            </li>
-            <li className='text-slate-700 hover:underline'>
+            <li className='text-slate-700 hover:underline font-bold'>
               <Link to='/Shop-houseKenya' onClick={handleMenuItemClick}>Shop</Link>
             </li>
-            {currentUser ? (
-                          <li className='text-slate-700 hover:underline'>
-                          <Link to='/profile'>
-                          Profile
-                          </Link>
-                        </li>
-
-            ):(
-              <li className='text-slate-700 hover:underline'>
-              <Link to='/Login'>
-              SignIn
-              </Link>
+            <li className='text-slate-700 hover:underline font-bold'>
+              <Link to='/about' onClick={handleMenuItemClick}>About</Link>
             </li>
-            )}
 
+            <li className='text-slate-700 hover:underline font-bold'>
+              <Link to='/contact' onClick={handleMenuItemClick}>Contact</Link>
+            </li>
+            {currentUser ? (
+              <li className='text-slate-700 hover:underline font-bold'>
+                <Link to='/profile'>Profile</Link>
+              </li>
+              
+            ) : (
+              <li className='text-slate-700 hover:underline font-bold'>
+                <Link to='/Login'>SignIn</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </div>
