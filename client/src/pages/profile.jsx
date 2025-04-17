@@ -21,7 +21,7 @@ const Profile = () => {
   }, [currentUser, navigate]);
 
   if (!currentUser) {
-    return null; // or return a loading spinner/message
+    return null; 
   }
 
   return (

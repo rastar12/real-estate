@@ -29,13 +29,12 @@ export default function SignUp() {
     try {
       setLoading(true);
 
-      // Update formData to include selectedType
       const updatedFormData = {
         ...formData,
         accountType: selectedType,
       };
 
-      console.log('Updated Form Data:', updatedFormData); // Log updated formData
+      console.log('Updated Form Data:', updatedFormData); 
 
       const res = await fetch('/api/auth/signup', {
         method: 'POST',

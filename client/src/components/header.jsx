@@ -81,7 +81,6 @@ export default function Header() {
             <li className='text-slate-700 hover:underline font-bold'>
               <Link to='/' onClick={handleMenuItemClick}>Home</Link>
             </li>
-
             <li className='text-slate-700 hover:underline font-bold'>
               <Link to='search' onClick={handleMenuItemClick}>Search</Link>
             </li>
@@ -99,7 +98,7 @@ export default function Header() {
               <li className='text-slate-700 hover:underline font-bold'>
                 <Link to='/profile'>Profile</Link>
               </li>
-              
+
             ) : (
               <li className='text-slate-700 hover:underline font-bold'>
                 <Link to='/Login'>SignIn</Link>
