@@ -52,7 +52,7 @@ export const deleteUser = async(req,res,next) =>{
 
 export const getUserListings=async (req,res,next)=>{
 
-  if(req.user.id===req.params.id){
+  if(req.user.id ===req.params.id){
 
     try {
       const listings= await Listing.find({userRef: req.params.id});
@@ -64,7 +64,7 @@ export const getUserListings=async (req,res,next)=>{
   }else{
     return next (errorHandler(401,'you can only view your own Listings!'))
   }
-}
+};
 
 export const getUser= async (req,res,next)=>{
   try {
